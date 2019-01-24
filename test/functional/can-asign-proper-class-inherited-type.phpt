@@ -10,7 +10,7 @@ class Inbox extends Gmail {}
 
 class User
 {
-    use Codelicia\Immutable\Immutability;
+    use Codelicia\Immutable\ImmutableProperties;
 
     public Email $email;
 }

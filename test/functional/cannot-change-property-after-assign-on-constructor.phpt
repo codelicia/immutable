@@ -6,7 +6,7 @@ require __DIR__ . '/bootstrap.php';
 
 class User
 {
-    use Codelicia\Immutable\Immutability;
+    use Codelicia\Immutable\ImmutableProperties;
 
     public string $name;
 

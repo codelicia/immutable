@@ -9,7 +9,7 @@ class Gmail implements Email {}
 
 class User
 {
-    use Codelicia\Immutable\Immutability;
+    use Codelicia\Immutable\ImmutableProperties;
 
     public Email $email;
 }

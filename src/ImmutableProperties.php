@@ -18,7 +18,7 @@ use function is_object;
 use function spl_object_hash;
 use function sprintf;
 
-trait Immutability
+trait ImmutableProperties
 {
     /** @return string[][]|ReflectionProperty[][] */
     protected function &reflectionProperty(): array
