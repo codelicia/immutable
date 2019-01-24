@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<phpunit
+        bootstrap="./vendor/autoload.php"
+        colors="true"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        verbose="true"
+        stopOnFailure="false"
+        processIsolation="false"
+        backupGlobals="false"
+        columns="max"
+>
+    <testsuites>
+        <testsuite name="Codelicia\Immutable functional tests">
+            <directory suffix=".phpt">./test/functional</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
