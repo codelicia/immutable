@@ -60,14 +60,14 @@ trait ImmutableProperties
         }
     }
 
-    public function __set(string $prop, $value)
+    public function __set(string $propertyName, $value)
     {
         $ref = &$this->reflectionProperty();
-        $property = $ref[$prop];
+        $property = $ref[$propertyName];
 
         if ($property['isInitialized']) {
             // @TODO throws specific exception?
-            throw new RuntimeException(sprintf('Cannot reassign value to property "%s"', $prop));
+            throw new RuntimeException(sprintf('Cannot reassign value to property "%s"', $propertyName));
         }
 
         /** @var ReflectionProperty $reflection */
@@ -80,16 +80,16 @@ trait ImmutableProperties
             $actualValueType = is_object($value) ? get_class($value) : gettype($value);
 
             if (is_object($value) && interface_exists($expectedType) && !in_array($expectedType, class_implements($actualValueType), false)) {
-                throw TypeErrorExceptionFactory::fromWrongType($this, $prop, $expectedType, $actualValueType);
+                throw TypeErrorExceptionFactory::fromWrongType($this, $propertyName, $expectedType, $actualValueType);
             }
 
             if (($expectedType !== $actualValueType && $type->isBuiltin())
                 && (null !== $value && !$type->allowsNull())) {
-                throw TypeErrorExceptionFactory::fromWrongType($this, $prop, $expectedType, $actualValueType);
+                throw TypeErrorExceptionFactory::fromWrongType($this, $propertyName, $expectedType, $actualValueType);
             }
         }
 
-        $ref[$prop] = [
+        $ref[$propertyName] = [
             'reflection' => $property['reflection'],
             'value' => $value,
             'isInitialized' => true,
