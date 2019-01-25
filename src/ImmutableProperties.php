@@ -23,13 +23,13 @@ trait ImmutableProperties
     /** @return string[][]|ReflectionProperty[][] */
     protected function &reflectionProperty(): array
     {
-        static $reflectionProperty = [];
+        static $reflectionProperties = [];
 
-        if (! array_key_exists(spl_object_hash($this), $reflectionProperty)) {
-            $reflectionProperty[spl_object_hash($this)] = [];
+        if (! array_key_exists(spl_object_hash($this), $reflectionProperties)) {
+            $reflectionProperties[spl_object_hash($this)] = [];
         }
 
-        return $reflectionProperty[spl_object_hash($this)];
+        return $reflectionProperties[spl_object_hash($this)];
     }
 
     public function __construct()
