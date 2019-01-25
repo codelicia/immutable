@@ -1,6 +1,6 @@
 {
     "name": "codelicia/immutability",
-    "description": "It makes initialized properties immutable",
+    "description": "Enforces immutability on initialized typed properties of any PHP object",
     "type": "project",
     "license": "MIT",
     "authors": [
