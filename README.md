@@ -6,7 +6,7 @@ Install the `ImmutableProperties` library and get to work with immutable propert
 ### Installation
 
 ```
-$ composer req codelicia/immutability --sort-packages
+$ composer require codelicia/immutable
 ```
 
 ### Usage
