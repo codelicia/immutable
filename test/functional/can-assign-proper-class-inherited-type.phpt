@@ -1,5 +1,5 @@
 --TEST--
-It should allow inherit members as proper types
+It should allow inherited members as proper types
 --FILE--
 <?php
 require __DIR__ . '/bootstrap.php';
