@@ -37,7 +37,7 @@ trait ImmutableProperties
         $this->init();
     }
 
-    public function init(): void
+    protected function init(): void
     {
         $reflection = new ReflectionObject($this);
         $store = &$this->reflectionProperty();
