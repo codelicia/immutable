@@ -16,7 +16,7 @@ Enable immutability on your classes just by plugging the `ImmutableProperties` t
 ```php
 final class User
 {
-    use Codelicia\ImmutableProperties;
+    use \Codelicia\ImmutableProperties;
 
     public string $name;
     public int $age;
@@ -25,7 +25,7 @@ final class User
 $user       = new User;
 $user->name = "@malukenho";
 
-// NOPE
+// this will crash
 $user->name = "Throws exception as the property name cannot be reassigned";
 ```
 
@@ -35,7 +35,7 @@ instantiation of it, but we cannot enforce it on out side, it is up to you and y
 ```php
 final class User
 {
-    use Codelicia\ImmutableProperties;
+    use \Codelicia\ImmutableProperties;
 
     // It is fine to leave the properties visibility as public as the `ImmutableProperties`
     // trait will not allow it to change after it is being initialized in the
