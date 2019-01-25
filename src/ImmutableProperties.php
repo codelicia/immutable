@@ -21,7 +21,7 @@ use function sprintf;
 trait ImmutableProperties
 {
     /** @return string[][]|ReflectionProperty[][] */
-    protected function &reflectionProperty(): array
+    final protected function &reflectionProperty(): array
     {
         static $reflectionProperties = [];
 
