@@ -18,6 +18,15 @@ use function is_object;
 use function spl_object_hash;
 use function sprintf;
 
+/**
+ * It provides manages and check state of properties to make sure it
+ * doesn't change. The properties are store under a static variable
+ * `$reflectionProperties` inside `self#reflectionProperty()` where
+ * reference to objects are store along with the necessary data to
+ * make does checks.
+ *
+ * @package Codelicia\Immutable
+ */
 trait ImmutableProperties
 {
     /** @return string[][]|ReflectionProperty[][] */
