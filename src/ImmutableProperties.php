@@ -107,9 +107,9 @@ trait ImmutableProperties
         ];
     }
 
-    public function __get(string $prop)
+    public function __get(string $propertyName)
     {
-        return $this->{$prop} ?? $this->reflectionProperty()[$prop]['value'];
+        return $this->{$propertyName} ?? $this->reflectionProperty()[$propertyName]['value'];
     }
 
     public function __debugInfo(): array
