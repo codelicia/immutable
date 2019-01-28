@@ -2,7 +2,7 @@
 It should allow inherited members as proper types
 --FILE--
 <?php
-require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 class Email {}
 class Gmail extends Email {}

@@ -2,7 +2,7 @@
 It should not allow initialization with wrong built in types
 --FILE--
 <?php
-require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 class User
 {

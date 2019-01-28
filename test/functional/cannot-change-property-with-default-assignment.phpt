@@ -2,7 +2,7 @@
 It should not allow to change property after it is initialized
 --FILE--
 <?php
-require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 class User
 {

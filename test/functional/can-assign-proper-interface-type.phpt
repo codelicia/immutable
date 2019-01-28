@@ -2,7 +2,7 @@
 It should allow interfaces as proper types
 --FILE--
 <?php
-require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 interface Email {}
 class Gmail implements Email {}

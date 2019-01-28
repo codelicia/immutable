@@ -2,7 +2,7 @@
 It should allow null on nullable types
 --FILE--
 <?php
-require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 class User
 {
