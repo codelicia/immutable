@@ -8,11 +8,8 @@ use ReflectionObject;
 use ReflectionProperty;
 use ReflectionType;
 use function array_key_exists;
-use function class_implements;
 use function get_class;
 use function gettype;
-use function in_array;
-use function interface_exists;
 use function is_object;
 use function spl_object_hash;
 
@@ -88,14 +85,7 @@ trait ImmutableProperties
             $expectedType    = $type->getName();
             $actualValueType = is_object($value) ? get_class($value) : gettype($value);
 
-            if (is_object($value) && interface_exists($expectedType) && !in_array($expectedType, class_implements($actualValueType), false)) {
-                throw TypeErrorExceptionFactory::fromWrongType($this, $propertyName, $expectedType, $actualValueType);
-            }
-
-            // TODO: resolve types && !($actualValueType === 'integer' && $expectedType === 'int')
-            if ((($expectedType !== $actualValueType && $type->isBuiltin())
-                && (null !== $value && !$type->allowsNull()))
-                && !($actualValueType === 'integer' && $expectedType === 'int')) {
+            if (!TypesMatchResolver::resolve($value, $type)) {
                 throw TypeErrorExceptionFactory::fromWrongType($this, $propertyName, $expectedType, $actualValueType);
             }
         }
@@ -116,7 +106,7 @@ trait ImmutableProperties
     {
         $debug = [];
         foreach ($this->reflectionProperty() as $property => $value) {
-            $debug[$property] = $value['value'];
+            $debug[$property] = $this->{$property} ?? $value['value'];
         }
 
         return $debug;

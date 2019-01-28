@@ -1,0 +1,18 @@
+<?php
+
+declare(strict_types=1);
+
+namespace CodeliciaTest\Immutable\unit;
+
+final class DummyClassWithAllTypes
+{
+    public int $int;
+    public string $string;
+    public object $object;
+    public \stdClass $class;
+    public float $float;
+    public bool $bool;
+    public array $array;
+    public iterable $iterable;
+    public $noType;
+}
