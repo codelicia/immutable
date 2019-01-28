@@ -29,4 +29,4 @@ object(User)#3 (1) {
   NULL
 }
 
-Fatal error: Uncaught RuntimeException: Cannot reassign value to property "name" %A
+Fatal error: Uncaught Codelicia\Immutable\ImmutableException: Cannot reassign value to property "name" %A

@@ -32,4 +32,4 @@ $user->setName('other-name');
 --EXPECTF--
 string(9) "malukenho"
 
-Fatal error: Uncaught RuntimeException: Cannot reassign value to property "name" %A
+Fatal error: Uncaught Codelicia\Immutable\ImmutableException: Cannot reassign value to property "name" %A
