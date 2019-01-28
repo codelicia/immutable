@@ -30,7 +30,7 @@ use function sprintf;
 trait ImmutableProperties
 {
     /** @return string[][]|ReflectionProperty[][] */
-    final private function &reflectionProperty(): array
+    private function & reflectionProperty(): array
     {
         static $reflectionProperties = [];
 
@@ -52,8 +52,9 @@ trait ImmutableProperties
         $store = &$this->reflectionProperty();
         $defaultProperties = $reflection->getDefaultProperties();
 
-        foreach ($reflection->getProperties(ReflectionProperty::IS_PUBLIC) as $reflectionProperty) {
+        foreach ($reflection->getProperties($this->visibilities()) as $reflectionProperty) {
             $propertyName = $reflectionProperty->name;
+            $reflectionProperty->setAccessible(true);
             /** @var \ReflectionType $type */
             $type = $reflectionProperty->getType();
 
@@ -92,8 +93,10 @@ trait ImmutableProperties
                 throw TypeErrorExceptionFactory::fromWrongType($this, $propertyName, $expectedType, $actualValueType);
             }
 
-            if (($expectedType !== $actualValueType && $type->isBuiltin())
-                && (null !== $value && !$type->allowsNull())) {
+            // TODO: resolve types && !($actualValueType === 'integer' && $expectedType === 'int')
+            if ((($expectedType !== $actualValueType && $type->isBuiltin())
+                && (null !== $value && !$type->allowsNull()))
+                && !($actualValueType === 'integer' && $expectedType === 'int')) {
                 throw TypeErrorExceptionFactory::fromWrongType($this, $propertyName, $expectedType, $actualValueType);
             }
         }
@@ -125,5 +128,9 @@ trait ImmutableProperties
         return array_key_exists($prop, $this->reflectionProperty());
     }
 
+    public function visibilities(): int
+    {
+        return ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PRIVATE | ReflectionProperty::IS_PROTECTED;
+    }
     // @TODO clean the reflection property static map on __destruct
 }
