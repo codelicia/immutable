@@ -7,7 +7,6 @@ namespace Codelicia\Immutable;
 use ReflectionObject;
 use ReflectionProperty;
 use ReflectionType;
-use RuntimeException;
 use function array_key_exists;
 use function class_implements;
 use function get_class;
@@ -16,7 +15,6 @@ use function in_array;
 use function interface_exists;
 use function is_object;
 use function spl_object_hash;
-use function sprintf;
 
 /**
  * It provides manages and check state of properties to make sure it
@@ -29,7 +27,9 @@ use function sprintf;
  */
 trait ImmutableProperties
 {
-    /** @return string[][]|ReflectionProperty[][] */
+    /**
+     * @return string[]|ReflectionProperty[]
+     */
     private function & reflectionProperty(): array
     {
         static $reflectionProperties = [];
@@ -76,8 +76,7 @@ trait ImmutableProperties
         $property = $ref[$propertyName];
 
         if ($property['isInitialized']) {
-            // @TODO throws specific exception?
-            throw new RuntimeException(sprintf('Cannot reassign value to property "%s"', $propertyName));
+            throw ImmutableException::mutatingPropertiesAreNotAllowed($propertyName);
         }
 
         /** @var ReflectionProperty $reflection */
@@ -123,14 +122,26 @@ trait ImmutableProperties
         return $debug;
     }
 
-    public function __isset(string $prop): bool
+    public function __isset(string $propertyName): bool
     {
-        return array_key_exists($prop, $this->reflectionProperty());
+        return array_key_exists($propertyName, $this->reflectionProperty());
     }
 
+    /**
+     * In case you want to allow immutability based on property visibility you
+     * should overwrite this method picking up the specific visibilities
+     * that you want to use.
+     */
     public function visibilities(): int
     {
         return ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PRIVATE | ReflectionProperty::IS_PROTECTED;
     }
-    // @TODO clean the reflection property static map on __destruct
+
+    public function __destruct()
+    {
+        $objectHash = spl_object_hash($this);
+        $store = &$this->reflectionProperty();
+
+        unset($store[$objectHash]);
+    }
 }
