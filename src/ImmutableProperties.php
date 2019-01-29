@@ -14,20 +14,19 @@ use function is_object;
 use function spl_object_hash;
 
 /**
- * It provides manages and check state of properties to make sure it
- * doesn't change. The properties are store under a static variable
- * `$reflectionProperties` inside `self#reflectionProperty()` where
- * reference to objects are store along with the necessary data to
- * make does checks.
+ * It manage the state of the properties to make sure it doesn't change.
+ * The properties are store under a static variable `$reflectionProperties`
+ * inside `self#reflectionProperty()` where reference to objects are
+ * stored along with the necessary data to make those checks.
  *
  * @package Codelicia\Immutable
  */
 trait ImmutableProperties
 {
     /**
-     * @return string[]|ReflectionProperty[]
+     * @return PropertyState[]
      */
-    private function & reflectionProperty(): array
+    private function & referenceCollection() : array
     {
         static $reflectionProperties = [];
 
@@ -43,23 +42,24 @@ trait ImmutableProperties
         $this->init();
     }
 
-    protected function init(): void
+    protected function init() : void
     {
-        $reflection = new ReflectionObject($this);
-        $store = &$this->reflectionProperty();
+        $reflection        = new ReflectionObject($this);
+        $store             = &$this->referenceCollection();
         $defaultProperties = $reflection->getDefaultProperties();
 
-        foreach ($reflection->getProperties($this->visibilities()) as $reflectionProperty) {
+        // TODO: can we remove it from here?
+        foreach ($reflection->getProperties($this->affectedVisibilities()) as $reflectionProperty) {
             $propertyName = $reflectionProperty->name;
             $reflectionProperty->setAccessible(true);
-            /** @var \ReflectionType $type */
+            /** @var ReflectionType $type */
             $type = $reflectionProperty->getType();
 
-            $store[$propertyName] = [
-                'reflection' => $reflectionProperty,
-                'value' => $defaultProperties[$propertyName] ?: null,
-                'isInitialized' => isset($defaultProperties[$propertyName]) ? true : $reflectionProperty->isInitialized($this),
-            ];
+            $store[$propertyName] = PropertyState::createUninitializedValue(
+                $reflectionProperty,
+                $defaultProperties[$propertyName] ?: null,
+                isset($defaultProperties[$propertyName]) ? true : $reflectionProperty->isInitialized($this)
+            );
 
             if (isset($defaultProperties[$propertyName]) || $type->allowsNull()) {
                 unset($this->{$propertyName});
@@ -69,52 +69,48 @@ trait ImmutableProperties
 
     public function __set(string $propertyName, $value)
     {
-        $ref = &$this->reflectionProperty();
-        $property = $ref[$propertyName];
+        $references = &$this->referenceCollection();
+        $property   = $references[$propertyName];
 
-        if ($property['isInitialized']) {
+        if ($property->isInitialized()) {
             throw ImmutableException::mutatingPropertiesAreNotAllowed($propertyName);
         }
 
-        /** @var ReflectionProperty $reflection */
-        $reflection = $property['reflection'];
+        $reflection = $property->reflectionProperty();
 
+        // TODO: remove it from here
         if ($reflection->hasType()) {
             /** @var ReflectionType $type */
             $type            = $reflection->getType();
             $expectedType    = $type->getName();
             $actualValueType = is_object($value) ? get_class($value) : gettype($value);
 
-            if (!TypesMatchResolver::resolve($value, $type)) {
+            if (! TypesMatchResolver::resolve($value, $type)) {
                 throw TypeErrorExceptionFactory::fromWrongType($this, $propertyName, $expectedType, $actualValueType);
             }
         }
 
-        $ref[$propertyName] = [
-            'reflection' => $property['reflection'],
-            'value' => $value,
-            'isInitialized' => true,
-        ];
+        $references[$propertyName] = PropertyState::createInitializedValue($reflection, $value);
     }
 
     public function __get(string $propertyName)
     {
-        return $this->{$propertyName} ?? $this->reflectionProperty()[$propertyName]['value'];
+        return $this->{$propertyName} ?? $this->referenceCollection()[$propertyName]->value();
     }
 
-    public function __debugInfo(): array
+    public function __debugInfo() : array
     {
         $debug = [];
-        foreach ($this->reflectionProperty() as $property => $value) {
-            $debug[$property] = $this->{$property} ?? $value['value'];
+        foreach ($this->referenceCollection() as $property => $value) {
+            $debug[$property] = $this->{$property} ?? $value->value();
         }
 
         return $debug;
     }
 
-    public function __isset(string $propertyName): bool
+    public function __isset(string $propertyName) : bool
     {
-        return array_key_exists($propertyName, $this->reflectionProperty());
+        return array_key_exists($propertyName, $this->referenceCollection());
     }
 
     /**
@@ -122,15 +118,15 @@ trait ImmutableProperties
      * should overwrite this method picking up the specific visibilities
      * that you want to use.
      */
-    public function visibilities(): int
+    protected function affectedVisibilities() : int
     {
         return ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PRIVATE | ReflectionProperty::IS_PROTECTED;
     }
 
-    public function __destruct()
+    final public function __destruct()
     {
         $objectHash = spl_object_hash($this);
-        $store = &$this->reflectionProperty();
+        $store      = &$this->referenceCollection();
 
         unset($store[$objectHash]);
     }
