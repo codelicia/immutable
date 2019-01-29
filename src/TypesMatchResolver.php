@@ -11,11 +11,14 @@ use function interface_exists;
 use function is_iterable;
 use function is_object;
 
+/**
+ * @internal
+ */
 final class TypesMatchResolver
 {
     public static function resolve($value, ReflectionType $reflectionType): bool
     {
-        $valueType     = gettype($value);
+        $valueType          = gettype($value);
         $reflectionTypeName = $reflectionType->getName();
 
         if ($value instanceof $reflectionTypeName

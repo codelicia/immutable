@@ -8,6 +8,9 @@ use TypeError;
 use function get_class;
 use function sprintf;
 
+/**
+ * @internal
+ */
 final class TypeErrorExceptionFactory
 {
     private function __construct()
