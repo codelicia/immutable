@@ -18,9 +18,9 @@ final class TypesMatchResolver
         $valueType     = gettype($value);
         $reflectionTypeName = $reflectionType->getName();
 
-        if (is_object($value)
-            && ($reflectionTypeName === 'object' || interface_exists($reflectionTypeName) || class_exists($reflectionTypeName))
-            && $value instanceof $reflectionTypeName) {
+        if ($value instanceof $reflectionTypeName
+            && is_object($value)
+            && ($reflectionTypeName === 'object' || interface_exists($reflectionTypeName) || class_exists($reflectionTypeName))) {
             return true;
         }
 
