@@ -10,8 +10,8 @@ use CodeliciaTest\Immutable\unit\DummyClassWithAllTypes;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionType;
+use ReflectionException;
 use SplStack;
-use const STDOUT;
 
 final class TypesMatchResolverTest extends TestCase
 {
@@ -19,15 +19,15 @@ final class TypesMatchResolverTest extends TestCase
      * @test
      * @dataProvider provideReflectionTypes
      */
-    public function it_should_match_types($value, ReflectionType $reflectionType): void
+    public function it_should_match_types($value, ReflectionType $reflectionType) : void
     {
         self::assertTrue(TypesMatchResolver::resolve($value, $reflectionType));
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    public function provideReflectionTypes(): iterable
+    public function provideReflectionTypes() : iterable
     {
         $reflection = new ReflectionClass(DummyClassWithAllTypes::class);
 

@@ -48,7 +48,6 @@ trait ImmutableProperties
         $store             = &$this->referenceCollection();
         $defaultProperties = $reflection->getDefaultProperties();
 
-        // TODO: can we remove it from here?
         foreach ($reflection->getProperties($this->affectedVisibilities()) as $reflectionProperty) {
             $propertyName = $reflectionProperty->name;
             $reflectionProperty->setAccessible(true);
@@ -78,7 +77,6 @@ trait ImmutableProperties
 
         $reflection = $property->reflectionProperty();
 
-        // TODO: remove it from here
         if ($reflection->hasType()) {
             /** @var ReflectionType $type */
             $type            = $reflection->getType();
