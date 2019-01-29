@@ -4,10 +4,10 @@ Codelicia\Immutable
 Enforces immutability on initialized typed properties of any PHP object.
 
 Immutable properties can be really handful to avoid `getter/setter` boiler-plates
-or just enforce immutability specific objects.
+or just enforce immutability for specific objects.
 
 We see it as specially useful for the following use cases: 
-**VO**, **DTO**, **Command**, **Events** and **ViewModels**.
+**VOs**, **DTOs**, **Commands**, **Events** and **ViewModels**.
 
 ### Installation
 
