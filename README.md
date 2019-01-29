@@ -1,7 +1,13 @@
 Codelicia\Immutable
 ===================
 
-Install the `ImmutableProperties` library and get to work with immutable properties.
+Enforces immutability on initialized typed properties of any PHP object.
+
+Immutable properties can be really handful to avoid `getter/setter` boiler-plates
+or just enforce immutability specific objects.
+
+We see it as specially useful for the following use cases: 
+**VO**, **DTO**, **Command**, **Events** and **ViewModels**.
 
 ### Installation
 
@@ -29,8 +35,9 @@ $user->name = "@malukenho";
 $user->name = "Throws exception as the property name cannot be reassigned";
 ```
 
-We recommend you create a `__construct` to make the object stay in a valid state right after the
-instantiation of it, but we cannot enforce it on out side, it is up to you and your necessity.
+We recommend you create a `__construct` to make the object stay in a valid state
+right after the instantiation of it, but we cannot enforce it on out side, it is
+up to you and your necessity.
 
 ```php
 final class User
@@ -52,6 +59,12 @@ final class User
     }
 }
 ```
+
+### Working with custom visibilities
+
+If you want to make properties immutable based on their visibilities, you can create a
+new trait and overwrite the `affectedVisibilities()` method with your custom affected
+properties.
 
 ### Authors
 
