@@ -9,6 +9,7 @@ use stdClass;
 final class DummyClassWithAllTypes
 {
     public int $int;
+    public ?int $nullable_int;
     public string $string;
     public object $object;
     public stdClass $class;

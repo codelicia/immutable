@@ -31,7 +31,6 @@ final class TypesMatchResolverTest extends TestCase
     {
         $reflection = new ReflectionClass(DummyClassWithAllTypes::class);
 
-        // TODO missing add tests for "nullable" data types
         yield [1, $reflection->getProperty('int')->getType()];
         yield ['string value', $reflection->getProperty('string')->getType()];
         yield [new SplStack(), $reflection->getProperty('object')->getType()];
@@ -42,5 +41,7 @@ final class TypesMatchResolverTest extends TestCase
         yield [[], $reflection->getProperty('array')->getType()];
         yield [[], $reflection->getProperty('iterable')->getType()];
         yield [new ArrayIterator([]), $reflection->getProperty('iterable')->getType()];
+        yield [null, $reflection->getProperty('nullable_int')->getType()];
+        yield [123, $reflection->getProperty('nullable_int')->getType()];
     }
 }
