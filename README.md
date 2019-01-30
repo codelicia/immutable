@@ -1,9 +1,9 @@
 Codelicia\Immutable
 ===================
 
-Enforces immutability on initialized typed properties of any PHP object.
+It enforces immutability on initialized properties.
 
-Immutable properties can be really handful to avoid `getter/setter` boiler-plates
+Immutable properties can be really handful to avoid `getter/setter` boiler-plate
 or just enforce immutability for specific objects.
 
 We see it as specially useful for the following use cases: 
@@ -36,8 +36,7 @@ $user->name = "Throws exception as the property name cannot be reassigned";
 ```
 
 We recommend you create a `__construct` to make the object stay in a valid state
-right after the instantiation of it, but we cannot enforce it on out side, it is
-up to you and your necessity.
+right after the instantiation of it, but it is up to you and your necessity.
 
 ```php
 final class User
@@ -52,7 +51,7 @@ final class User
 
     public function __construct(string $name, int $age)
     {
-        $this->init(); // It needs to be initialized here
+        $this->init(); // The `init()` method must be called here
 
         $this->name = $name;
         $this->age = $age;
@@ -64,7 +63,7 @@ final class User
 
 If you want to make properties immutable based on their visibilities, you can create a
 new trait and overwrite the `affectedVisibilities()` method with your custom affected
-properties.
+visibilities.
 
 ### Authors
 
