@@ -59,12 +59,6 @@ final class User
 }
 ```
 
-### Working with custom visibilities
-
-If you want to make properties immutable based on their visibilities, you can create a
-new trait and overwrite the `affectedVisibilities()` method with your custom affected
-visibilities.
-
 ### Authors
 
 * Jefersson Nathan ([@malukenho](https://github.com/malukenho))

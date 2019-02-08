@@ -111,12 +111,7 @@ trait ImmutableProperties
         return array_key_exists($propertyName, $this->referenceCollection());
     }
 
-    /**
-     * In case you want to allow immutability based on property visibility you
-     * should overwrite this method picking up the specific visibilities
-     * that you want to use.
-     */
-    protected function affectedVisibilities() : int
+    private function affectedVisibilities() : int
     {
         return ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PRIVATE | ReflectionProperty::IS_PROTECTED;
     }
