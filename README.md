@@ -1,6 +1,9 @@
 Codelicia\Immutable
 ===================
 
+[![Build Status](https://travis-ci.com/codelicia/immutable.svg?branch=master)](https://travis-ci.com/codelicia/immutable)
+
+
 It enforces immutability on initialized properties.
 
 Immutable properties can be really handful to avoid `getter/setter` boiler-plate

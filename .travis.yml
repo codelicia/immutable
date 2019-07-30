@@ -1,0 +1,7 @@
+language: php
+php:
+  - '7.4snapshot'
+  - nightly
+install:
+   - composer install --ignore-platform-reqs
+   - phpunit
