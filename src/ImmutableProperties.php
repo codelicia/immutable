@@ -56,7 +56,7 @@ trait ImmutableProperties
 
             $store[$propertyName] = PropertyState::createUninitializedValue(
                 $reflectionProperty,
-                $defaultProperties[$propertyName] ?: null,
+                $defaultProperties[$propertyName] ?? null,
                 isset($defaultProperties[$propertyName]) ? true : $reflectionProperty->isInitialized($this)
             );
 
