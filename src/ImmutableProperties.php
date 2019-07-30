@@ -72,7 +72,7 @@ trait ImmutableProperties
         $property   = $references[$propertyName];
 
         if ($property->isInitialized()) {
-            throw ImmutableException::mutatingPropertiesAreNotAllowed($propertyName);
+            throw ImmutablePropertiesException::mutatingPropertiesAreNotAllowed($propertyName);
         }
 
         $reflection = $property->reflectionProperty();
