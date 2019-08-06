@@ -10,5 +10,8 @@
         <testsuite name="Codelicia\Immutable functional tests">
             <directory suffix=".phpt">./test/functional</directory>
         </testsuite>
+        <testsuite name="Codelicia\Immutable unit tests">
+            <directory>./test/unit</directory>
+        </testsuite>
     </testsuites>
 </phpunit>
