@@ -75,4 +75,19 @@ final class ArrayTest extends TestCase
 
         unset($immutableArray[0]);
     }
+
+    /**
+     * @test
+     */
+    public function it_should_be_iterable(): void
+    {
+        $immutableArray = new ImmutableArray(['a', 'b', 'c']);
+        $expectedArray = [];
+
+        foreach ($immutableArray as $key => $value) {
+            $expectedArray[$key] = $value;
+        }
+
+        self::assertSame([0 => 'a', 1 => 'b', 2 => 'c'], $expectedArray);
+    }
 }
