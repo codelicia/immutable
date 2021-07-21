@@ -3,6 +3,8 @@ Codelicia\Immutable
 
 [![Build Status](https://travis-ci.com/codelicia/immutable.svg?branch=master)](https://travis-ci.com/codelicia/immutable)
 
+> Since the [PHP RFC: Readonly properties 2.0](https://wiki.php.net/rfc/readonly_properties_v2) 
+> will be available on PHP 8.1 this repository will be archived. 
 
 It enforces immutability on initialized properties.
 
